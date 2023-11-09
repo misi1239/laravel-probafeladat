@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('names', function (Blueprint $table) {
             $table->id();
-            $table->string('nev');
+            $table->string('name');
             $table->string('address')->nullable();
-            $table->string('mailing address')->nullable();
+            $table->string('mailing_address')->nullable();
             $table->binary('photo')->nullable();
             $table->timestamps();
         });

@@ -15,6 +15,6 @@ class Email extends Model
 
     public function names()
     {
-        return $this->belongsTo(Name::class);
+        return $this->belongsTo(Name::class, 'name_id', 'id');
     }
 }

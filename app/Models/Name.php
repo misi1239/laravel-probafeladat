@@ -10,15 +10,15 @@ class Name extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nev',
+        'name',
         'address',
-        'email_address',
+        'mailing_address',
         'photo',
     ];
 
     public function emails()
     {
-        return $this->hasMany(Email::class);
+        return $this->hasMany(Email::class, 'name_id', 'id');
     }
 
     public function phones()
