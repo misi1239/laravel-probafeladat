@@ -43,7 +43,7 @@ class CreateAction extends Controller
 
             return response()->json([
                "status" => 200,
-               "message" => "Created succesfully"
+               "message" => "Created successfully"
             ]);
         } else {
             return response()->json([
