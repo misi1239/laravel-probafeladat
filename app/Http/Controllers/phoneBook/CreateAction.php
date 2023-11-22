@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\name;
+namespace App\Http\Controllers\phoneBook;
 
 use App\Http\Controllers\Controller;
 use App\Models\Name;
