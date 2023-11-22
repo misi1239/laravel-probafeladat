@@ -14,14 +14,16 @@ class CreateAction extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required|unique:names,name',
-            'emails' => 'required|array',
+            'emails' => 'required',
             'emails.*' => 'required|email|unique:emails,email_address',
+            'phones' => 'nullable|array',
+            'phones.*' => 'nullable|numeric|unique:phones,phone_number',
         ]);
 
         if(!$validator->fails()) {
 
         $name = "";
-            if ($request->has('name')) {
+            if ($request->has('name') && !empty($request->name)) {
                 $name = Name::create([
                     'name' => $request->name,
                     'address' => $request->address,
@@ -29,13 +31,14 @@ class CreateAction extends Controller
                     'photo' => $request->photo,
                 ]);
             }
-            if ($request->has('emails')) {
+
+            if ($request->has('emails') && !empty($request->emails)) {
                 foreach ($request->emails as $email) {
                     $name->emails()->create(['email_address' => $email]);
                 }
             }
 
-            if ($request->has('phones')) {
+            if ($request->has('phones') && !empty($request->phones)) {
                 foreach ($request->phones as $phone) {
                     $name->phones()->create(['phone_number' => $phone]);
                 }
