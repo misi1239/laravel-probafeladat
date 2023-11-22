@@ -17,7 +17,7 @@ class CreateAction extends Controller
             'emails' => 'required',
             'emails.*' => 'required|email|unique:emails,email_address',
             'phones' => 'nullable|array',
-            'phones.*' => 'nullable|numeric|unique:phones,phone_number',
+            'phones.*' => 'nullable|numeric|unique:phones,phone_number'
         ]);
 
         if(!$validator->fails()) {

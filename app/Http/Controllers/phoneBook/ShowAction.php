@@ -8,9 +8,15 @@ use Illuminate\Http\JsonResponse;
 
 class ShowAction extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function __invoke(int $id): JsonResponse
     {
-        $phoneBook = Name::with('phones', 'emails')->get();
+        $phoneBook = Name::with('phones', 'emails')->find($id);
+
+        if (!$phoneBook) {
+            return response()->json([
+                'error' => 'Nincs ilyen azonosítójú név',
+            ], 404);
+        }
 
         return response()->json([
             "phoneBook" => $phoneBook

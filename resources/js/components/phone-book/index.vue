@@ -17,7 +17,11 @@
 
     const newPhoneBook = async () => {
         router.push("/phone-book/create")
-    };
+    }
+
+    const updatePhoneBook = async (item) => {
+        router.push(`/phone-book/update/${item.id}`);
+    }
 
 </script>
 
@@ -79,6 +83,9 @@
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
                                 <p class="text-gray-900 whitespace-no-wrap">{{ item.phones.map(phone => phone.phone_number).join(', ') }}</p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
+                                <button class="bg-transparent hover:bg-orange-500 text-orange-700 font-semibold hover:text-white py-2 my-3 px-4 border border-orange-500 hover:border-transparent rounded" @click="() => updatePhoneBook(item)">Frissítés</button>
                             </td>
                         </tr>
                         </tbody>
