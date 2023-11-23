@@ -3,6 +3,7 @@
 import { ref, onMounted } from "vue"
 import router from "../../router/index.js"
 import {useRoute} from "vue-router";
+import { addInput, addPhoneInput, errorSameEmail, errorSamePhone, getErrorMessage } from '../../phone-book/sameFunction.js'
 
 let nameData = ref()
 let addressData = ref()
@@ -17,10 +18,18 @@ let isChecked = ref(false)
 let id = ref(null)
 
 onMounted(() => {
-     addInput()
-     addPhoneInput()
-     getDataById()
+    handleAddInput()
+    handleAddPhoneInput()
+    getDataById()
 });
+
+const handleAddInput = () => {
+    addInput(emailsData);
+};
+
+const handleAddPhoneInput = () => {
+    addPhoneInput(phonesData);
+};
 
 const getDataById = async () => {
     let route = useRoute()
@@ -36,37 +45,10 @@ const getDataById = async () => {
     response.data.phoneBook.phones.forEach((phone, index) => {
         phonesData.value[index] = phone.phone_number
     });
-    console.log(response.data)
 }
-const addInput = async () => {
-    emailsData.value.push("");
-};
-
-const addPhoneInput = async () => {
-    phonesData.value.push("");
-};
-
-const errorSameEmail = async () => {
-    let uniqueEmails = new Set(emailsData.value);
-
-    if (uniqueEmails.size !== emailsData.value.length) {
-        errorSameEmailError.value = "Nem adhatsz meg ugyan olyan email címet";
-    } else {
-        errorSameEmailError.value = '';
-    }
-};
-const errorSamePhone = async () => {
-    let uniquePhones = new Set(phonesData.value);
-
-    if (uniquePhones.size !== phonesData.value.length) {
-        errorSamePhoneError.value = "Nem adhatsz meg ugyan olyan telefonszámot";
-    } else {
-        errorSamePhoneError.value = '';
-    }
-};
 const updateData = async () => {
-    await errorSameEmail();
-    await errorSamePhone();
+    await errorSameEmail(emailsData, errorSameEmailError);
+    await errorSamePhone(phonesData, errorSamePhoneError);
 
     if (errorSameEmailError.value || errorSamePhoneError.value) {
         return;
@@ -89,16 +71,6 @@ const updateData = async () => {
 
     console.log(response.data);
 }
-
-const getErrorMessage = (error, field, index = null) => {
-    if (index !== null && error[`${field}.${index}`] && error[`${field}.${index}`].length > 0) {
-        return error[`${field}.${index}`][0];
-    }
-    if (error[field] && error[field].length > 0) {
-        return error[field][0];
-    }
-    return '';
-};
 </script>
 
 <template>
@@ -138,7 +110,7 @@ const getErrorMessage = (error, field, index = null) => {
                         <span class="text-sm text-red-600">{{ getErrorMessage(errorMessage, 'emails', index) }}</span>
                     </span>
                     <span class="text-sm text-red-600">{{ errorSameEmailError }}</span>
-                    <button @click="addInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További email címek hozzáadása</button>
+                    <button @click="handleAddInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További email címek hozzáadása</button>
                 </div>
 
                 <div class="mb-5">
@@ -148,7 +120,7 @@ const getErrorMessage = (error, field, index = null) => {
                         <span class="text-sm text-red-600">{{ getErrorMessage(errorMessage, 'phones', index) }}</span>
                     </span>
                     <span class="text-sm text-red-600">{{ errorSamePhoneError }}</span>
-                    <button @click="addPhoneInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További telefonszámok hozzáadása</button>
+                    <button @click="handleAddPhoneInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További telefonszámok hozzáadása</button>
                 </div>
 
                 <button @click="updateData" type="submit" class="block w-full bg-blue-500 text-white font-bold p-4 rounded-lg">Frissítés</button>
