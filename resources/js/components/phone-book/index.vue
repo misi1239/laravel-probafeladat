@@ -6,7 +6,7 @@
 
     let phoneBook = ref([])
 
-    onMounted(async ()=> {
+    onMounted( ()=> {
         getPhonebook()
     })
 
@@ -16,11 +16,15 @@
     }
 
     const newPhoneBook = async () => {
-        router.push("/phone-book/create")
+        await router.push("/phone-book/create")
     }
 
     const updatePhoneBook = async (item) => {
-        router.push(`/phone-book/update/${item.id}`);
+        await router.push(`/phone-book/update/${item.id}`);
+    }
+
+    const deletePhoneBook = async (item) => {
+        await router.push(`/phone-book/delete/${item.id}`);
     }
 
 </script>
@@ -55,39 +59,43 @@
                                 Telefonszám
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                         </tr>
                         </thead>
                         <tbody v-for="item in phoneBook" :key="item.id" v-if="phoneBook.length > 0">
-                        <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <div class="flex">
-                                    <div class="flex-shrink-0 w-10 h-10">
-                                        <img class="w-full h-full rounded-full"
-                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                            alt=""
-                                        />
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 w-10 h-10">
+                                            <img class="w-full h-full rounded-full"
+                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">{{ item.name }}</p>
+                                        </div>
                                     </div>
-                                    <div class="ml-3">
-                                        <p class="text-gray-900 whitespace-no-wrap">{{ item.name }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ item.address }}</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ item.mailing_address }}</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ item.emails.map(email => email.email_address).join(', ') }}</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
-                                <p class="text-gray-900 whitespace-no-wrap">{{ item.phones.map(phone => phone.phone_number).join(', ') }}</p>
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
-                                <button class="bg-transparent hover:bg-orange-500 text-orange-700 font-semibold hover:text-white py-2 my-3 px-4 border border-orange-500 hover:border-transparent rounded" @click="() => updatePhoneBook(item)">Frissítés</button>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ item.address }}</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ item.mailing_address }}</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ item.emails.map(email => email.email_address).join(', ') }}</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-left">
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ item.phones.map(phone => phone.phone_number).join(', ') }}</p>
+                                </td>
+                                <td class="border-b border-gray-200 bg-white text-sm text-left">
+                                    <button class="bg-transparent hover:bg-orange-500 text-orange-700 font-semibold hover:text-white py-2 my-3 px-4 border border-orange-500 hover:border-transparent rounded" @click="() => updatePhoneBook(item)">Frissítés</button>
+                                </td>
+                                <td class="border-b border-gray-200 bg-white text-sm text-left">
+                                    <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 my-3 px-4 border border-red-500 hover:border-transparent rounded" @click="() => deletePhoneBook(item)">Törlés</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
