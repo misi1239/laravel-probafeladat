@@ -2,7 +2,7 @@
 
     import { ref, onMounted } from "vue"
     import router from "../../router/index.js"
-    import { addInput, addPhoneInput, errorSameEmail, errorSamePhone, getErrorMessage } from '../../phone-book/sameFunction.js'
+    import { addInput, addPhoneInput, errorSameEmail, errorSamePhone, getErrorMessage, mainPage } from '../../phone-book/sameFunction.js'
 
     let nameData = ref()
     let addressData = ref()
@@ -57,6 +57,7 @@
         <div class="w-full">
             <h2 class="text-center text-blue-400 font-bold text-2xl uppercase mb-10">Telefonkönyv létrehozása</h2>
             <div class="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
+                <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 my-3 px-4 border border-blue-500 hover:border-transparent rounded" @click = "mainPage">Vissza</button>
                 <div class="mb-5">
                     <label for="name" class="block mb-2 font-bold text-gray-600">Név</label>
                     <input type="text" id="name" name="name" placeholder="" class="border border-gray-300 shadow p-3 w-full rounded mb-" v-model="nameData">

@@ -1,3 +1,6 @@
+import router from "../router/index.js"
+
+
 export const addInput = async (emailsData) => {
     emailsData.value.push('')
 };
@@ -35,3 +38,7 @@ export const getErrorMessage = (error, field, index = null) => {
     }
     return '';
 };
+
+export const mainPage = async () => {
+    await router.push("/")
+}
