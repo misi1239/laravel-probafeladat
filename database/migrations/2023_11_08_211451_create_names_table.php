@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('address')->nullable();
             $table->string('mailing_address')->nullable();
-            $table->binary('photo')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
