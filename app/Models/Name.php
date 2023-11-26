@@ -13,7 +13,7 @@ class Name extends Model
         'name',
         'address',
         'mailing_address',
-        'photo',
+        'image_path'
     ];
 
     public function emails()
