@@ -1,15 +1,40 @@
 import router from "../router/index.js"
 
 
-export const addInput = async (emailsData) => {
+export const addInput = (emailsData) => {
     emailsData.value.push('')
 };
 
-export const addPhoneInput = async (phonesData) => {
+export const removeInput = (emailsData) => {
+    if (emailsData.value.length > 1) {
+        emailsData.value.pop();
+    }
+};
+
+export const addPhoneInput = (phonesData) => {
     phonesData.value.push('');
 };
 
-export const errorSameEmail = async (emailsData, errorSameEmailError) => {
+export const removePhoneInput = (phonesData, index) => {
+    if (phonesData.value.length > 1) {
+        phonesData.value.splice(index, 1);
+    }
+};
+
+export const postImage = async (photoData) => {
+    if (photoData.value && photoData.value.files && photoData.value.files[0]) {
+        let response = await axios.post('/upload-image',
+            {
+                image_path: photoData.value.files[0]
+            },
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+    }
+}
+export const errorSameEmail = (emailsData, errorSameEmailError) => {
     let uniqueEmails = new Set(emailsData.value);
 
     if (uniqueEmails.size !== emailsData.value.length) {
@@ -19,7 +44,7 @@ export const errorSameEmail = async (emailsData, errorSameEmailError) => {
     }
 };
 
-export const errorSamePhone = async (phonesData, errorSamePhoneError) => {
+export const errorSamePhone = (phonesData, errorSamePhoneError) => {
     let uniquePhones = new Set(phonesData.value);
 
     if (uniquePhones.size !== phonesData.value.length) {

@@ -7,7 +7,6 @@ use App\Models\Name;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
 class CreateAction extends Controller
 {
     public function __invoke(Request $request): JsonResponse
@@ -17,7 +16,8 @@ class CreateAction extends Controller
             'emails' => 'required',
             'emails.*' => 'required|email|unique:emails,email_address',
             'phones' => 'nullable|array',
-            'phones.*' => 'nullable|numeric|unique:phones,phone_number'
+            'phones.*' => 'nullable|numeric|unique:phones,phone_number',
+            'image_path' => 'nullable'
         ]);
 
         if(!$validator->fails()) {
@@ -28,7 +28,7 @@ class CreateAction extends Controller
                     'name' => $request->name,
                     'address' => $request->address,
                     'mailing_address' => $request->mailing_address,
-                    'photo' => $request->photo,
+                    'image_path' => $request->image_path
                 ]);
             }
 

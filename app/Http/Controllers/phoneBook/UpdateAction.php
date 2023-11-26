@@ -54,7 +54,7 @@ class UpdateAction extends Controller
                     'name' => $request->input('name'),
                     'address' => $request->input('address'),
                     'mailing_address' => $request->input('mailing_address'),
-                    'photo' => $request->input('photo'),
+                    'image_path' => $request->input('image_path'),
                 ]);
 
                 if ($request->has('emails')) {

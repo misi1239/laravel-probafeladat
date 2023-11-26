@@ -2,7 +2,17 @@
 
     import { ref, onMounted } from "vue"
     import router from "../../router/index.js"
-    import { addInput, addPhoneInput, errorSameEmail, errorSamePhone, getErrorMessage, mainPage } from '../../phone-book/sameFunction.js'
+    import {
+        addInput,
+        addPhoneInput,
+        errorSameEmail,
+        errorSamePhone,
+        getErrorMessage,
+        mainPage,
+        removeInput,
+        removePhoneInput,
+        postImage
+    } from '../../phone-book/sameFunction.js'
 
     let nameData = ref()
     let addressData = ref()
@@ -19,15 +29,25 @@
     onMounted(() => {
         handleAddInput()
         handleAddPhoneInput()
-    });
+        handleRemoveEmailInput()
+        handleRemovePhoneInput()
+    })
 
     const handleAddInput = () => {
         addInput(emailsData);
-    };
+    }
 
     const handleAddPhoneInput = () => {
-        addPhoneInput(phonesData);
-    };
+        addPhoneInput(phonesData)
+    }
+
+    const handleRemoveEmailInput = () => {
+        removeInput(emailsData)
+    }
+
+    const handleRemovePhoneInput = () => {
+        removePhoneInput(phonesData)
+    }
 
     const postData = async () => {
         await errorSameEmail(emailsData, errorSameEmailError);
@@ -45,27 +65,14 @@
             phones: phonesData.value
         })
         if (response.data.status === 200) {
-            await router.push('/');
+            await router.push('/')
         }
         errorMessage.value = response.data.error_message
-    }
-    const postImage = async () => {
-        if (photoData.value && photoData.value.files && photoData.value.files[0]) {
-            let response = await axios.post('/upload-image',
-                {
-                    image_path: photoData.value.files[0]
-                },
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-        }
     }
 
     const submitForm = async () => {
         await postData()
-        await postImage()
+        await postImage(photoData)
     }
     const handleFileChange = (event) => {
         photoData.value = event.target
@@ -79,7 +86,7 @@
             <h2 class="text-center text-blue-400 font-bold text-2xl uppercase mb-10">Telefonkönyv létrehozása</h2>
             <div class="bg-white p-10 rounded-lg shadow md:w-3/4 mx-auto lg:w-1/2">
                 <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 my-3 px-4 border border-blue-500 hover:border-transparent rounded" @click = "mainPage">Vissza</button>
-                <form @submit.prevent="submitForm" enctype="multipart/form-data">
+                <form @submit.prevent="submitForm" method = "POST" enctype="multipart/form-data">
                     <div class="mb-5">
                         <label for="name" class="block mb-2 font-bold text-gray-600">Név</label>
                         <input type="text" id="name" name="name" placeholder="" class="border border-gray-300 shadow p-3 w-full rounded mb-" v-model="nameData">
@@ -114,7 +121,8 @@
                             <span class="text-sm text-red-600">{{ getErrorMessage(errorMessage, 'emails', index) }}</span>
                         </span>
                         <span class="text-sm text-red-600">{{ errorSameEmailError }}</span>
-                        <button @click="handleAddInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További email címek hozzáadása</button>
+                        <button type="button" @click="handleAddInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További email címek hozzáadása</button>
+                        <button type="button" @click="handleRemoveEmailInput" >Törlés</button>
                     </div>
 
                     <div class="mb-5">
@@ -124,7 +132,8 @@
                             <span class="text-sm text-red-600">{{ getErrorMessage(errorMessage, 'phones', index) }}</span>
                         </span>
                         <span class="text-sm text-red-600">{{ errorSamePhoneError }}</span>
-                        <button @click="handleAddPhoneInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További telefonszámok hozzáadása</button>
+                        <button type="button" @click="handleAddPhoneInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További telefonszámok hozzáadása</button>
+                        <button type="button" @click="handleRemovePhoneInput" >Törlés</button>
                     </div>
 
                     <button  type="submit" class="block w-full bg-blue-500 text-white font-bold p-4 rounded-lg">Létrehozás</button>
