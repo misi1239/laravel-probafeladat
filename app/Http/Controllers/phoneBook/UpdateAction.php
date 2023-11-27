@@ -16,9 +16,10 @@ class UpdateAction extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['sometimes', 'nullable', Rule::unique('names', 'name')->ignore($request->id)],
+            'emails' => 'required',
             'emails.*' => [
                 'sometimes',
-                'nullable',
+                'required',
                 'email',
                 function ($attribute, $value, $fail) use ($request) {
                     $existingEmails = DB::table('emails')
@@ -60,7 +61,9 @@ class UpdateAction extends Controller
                 if ($request->has('emails')) {
                     $name->emails()->delete();
                     foreach ($request->input('emails') as $email) {
-                        $name->emails()->create(['email_address' => $email]);
+                        if (!empty($email)) {
+                            $name->emails()->create(['email_address' => $email]);
+                        }
                     }
                 } else {
                     $name->emails()->where('name_id', $id)->delete();
@@ -69,7 +72,9 @@ class UpdateAction extends Controller
                 if ($request->has('phones')) {
                     $name->phones()->delete();
                     foreach ($request->input('phones') as $phone) {
-                        $name->phones()->create(['phone_number' => $phone]);
+                        if (!empty($phone)) {
+                            $name->phones()->create(['phone_number' => $phone]);
+                        }
                     }
                 } else {
                     $name->phones()->where('name_id', $id)->delete();

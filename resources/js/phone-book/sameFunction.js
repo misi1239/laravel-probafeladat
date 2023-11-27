@@ -3,23 +3,23 @@ import router from "../router/index.js"
 
 export const addInput = (emailsData) => {
     emailsData.value.push('')
-};
+}
 
 export const removeInput = (emailsData) => {
     if (emailsData.value.length > 1) {
         emailsData.value.pop();
     }
-};
+}
 
 export const addPhoneInput = (phonesData) => {
     phonesData.value.push('');
-};
+}
 
-export const removePhoneInput = (phonesData, index) => {
+export const removePhoneInput = (phonesData) => {
     if (phonesData.value.length > 1) {
-        phonesData.value.splice(index, 1);
+        phonesData.value.pop();
     }
-};
+}
 
 export const postImage = async (photoData) => {
     if (photoData.value && photoData.value.files && photoData.value.files[0]) {
@@ -42,7 +42,7 @@ export const errorSameEmail = (emailsData, errorSameEmailError) => {
     } else {
         errorSameEmailError.value = '';
     }
-};
+}
 
 export const errorSamePhone = (phonesData, errorSamePhoneError) => {
     let uniquePhones = new Set(phonesData.value);
@@ -52,7 +52,7 @@ export const errorSamePhone = (phonesData, errorSamePhoneError) => {
     } else {
         errorSamePhoneError.value = '';
     }
-};
+}
 
 export const getErrorMessage = (error, field, index = null) => {
     if (index !== null && error[`${field}.${index}`] && error[`${field}.${index}`].length > 0) {
@@ -62,7 +62,7 @@ export const getErrorMessage = (error, field, index = null) => {
         return error[field][0];
     }
     return '';
-};
+}
 
 export const mainPage = async () => {
     await router.push("/")

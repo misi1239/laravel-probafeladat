@@ -23,7 +23,7 @@ class CreateAction extends Controller
         if(!$validator->fails()) {
 
         $name = "";
-            if ($request->has('name') && !empty($request->name)) {
+            if ($request->has('name')) {
                 $name = Name::create([
                     'name' => $request->name,
                     'address' => $request->address,
@@ -32,15 +32,18 @@ class CreateAction extends Controller
                 ]);
             }
 
-            if ($request->has('emails') && !empty($request->emails)) {
+            if ($request->has('emails')) {
                 foreach ($request->emails as $email) {
-                    $name->emails()->create(['email_address' => $email]);
+                    if (!empty($email)) {
+                        $name->emails()->create(['email_address' => $email]);
+                    }
                 }
             }
-
-            if ($request->has('phones') && !empty($request->phones)) {
+            if ($request->has('phones')) {
                 foreach ($request->phones as $phone) {
-                    $name->phones()->create(['phone_number' => $phone]);
+                    if (!empty($phone)) {
+                        $name->phones()->create(['phone_number' => $phone]);
+                    }
                 }
             }
 
