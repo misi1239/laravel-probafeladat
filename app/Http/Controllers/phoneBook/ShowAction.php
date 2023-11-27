@@ -14,7 +14,7 @@ class ShowAction extends Controller
 
         if (!$phoneBook) {
             return response()->json([
-                'error' => 'Nincs ilyen azonosítójú név',
+                'error' => 'Nincs ilyen azonosítóval ellátott név',
             ], 404);
         }
 
