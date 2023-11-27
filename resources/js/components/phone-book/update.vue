@@ -143,7 +143,7 @@ const handleFileChange = (event) => {
                         </span>
                         <span class="text-sm text-red-600">{{ errorSameEmailError }}</span>
                         <button type="button" @click="handleAddInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További email címek hozzáadása</button>
-                        <button type="button" @click="handleRemoveEmailInput" >Törlés</button>
+                        <button type="button" class="block bg-red-500 text-white font-bold p-2 mt-2" @click="handleRemoveEmailInput" v-if="emailsData.length > 1">Törlés</button>
                     </div>
 
                     <div class="mb-5">
@@ -154,7 +154,7 @@ const handleFileChange = (event) => {
                         </span>
                         <span class="text-sm text-red-600">{{ errorSamePhoneError }}</span>
                         <button type="button" @click="handleAddPhoneInput" class="block bg-blue-500 text-white font-bold p-2 mt-2">További telefonszámok hozzáadása</button>
-                        <button type="button" @click="handleRemovePhoneInput" >Törlés</button>
+                        <button type="button" class="block bg-red-500 text-white font-bold p-2 mt-2" @click="handleRemovePhoneInput" v-if="phonesData.length > 1">Törlés</button>
                     </div>
 
                     <button  type="submit" class="block w-full bg-blue-500 text-white font-bold p-4 rounded-lg">Létrehozás</button>
