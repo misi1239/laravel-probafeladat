@@ -16,36 +16,10 @@ class UpdateAction extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['sometimes', 'nullable', Rule::unique('names', 'name')->ignore($request->id)],
-            'emails' => 'required',
-            'emails.*' => [
-                'sometimes',
-                'required',
-                'email',
-                function ($attribute, $value, $fail) use ($request) {
-                    $existingEmails = DB::table('emails')
-                        ->where('id', '!=', $request->id)
-                        ->pluck('email_address')
-                        ->toArray();
-
-                    if (count(array_diff($request->input('emails'), $existingEmails)) > 1 && in_array($value, $existingEmails)) {
-                        $fail('Ez az email cím már létezik az adatbázisban.');
-                    }
-                },
-            ],
-            'phones.*' => [
-                'sometimes',
-                'nullable',
-                function ($attribute, $value, $fail) use ($request) {
-                    $existingPhones = DB::table('phones')
-                        ->where('id', '!=', $request->id)
-                        ->pluck('phone_number')
-                        ->toArray();
-
-                    if (count(array_diff($request->input('phones'), $existingPhones)) > 1 && in_array($value, $existingPhones)) {
-                        $fail('Ez a telefonszám már létezik az adatbázisban.');
-                    }
-                },
-            ],
+            'emails' => ['sometimes', 'required', Rule::unique('emails', 'email_address')->ignore($request->id, 'name_id')],
+            'emails.*' => ['sometimes', 'required', Rule::unique('emails', 'email_address')->ignore($request->id, 'name_id')],
+            'phones' => ['sometimes', 'nullable', Rule::unique('phones', 'phone_number')->ignore($request->id, 'name_id')],
+            'phones.*' => ['sometimes', 'nullable', Rule::unique('phones', 'phone_number')->ignore($request->id, 'name_id')]
         ]);
         if (!$validator->fails()) {
             $name = Name::find($id);

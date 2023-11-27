@@ -131,7 +131,7 @@ const handleFileChange = (event) => {
 
                     <div class="mb-5">
                         <label for="photos" class="block mb-2 font-bold text-gray-600">Fotó</label>
-                        <input type="file" name="image_path" id="" @change="handleFileChange">
+                        <input type="file" name="image_path" id="" @change="handleFileChange" accept=".jpg, .jpeg .png">
                         <span class="text-sm text-red-600">{{ getErrorMessage(errorMessage, 'image_path') }}</span>
                     </div>
 
