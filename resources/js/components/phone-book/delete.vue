@@ -17,3 +17,5 @@ const deleteData = async () => {
     }
 }
 </script>
+
+<template></template>
